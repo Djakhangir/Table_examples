@@ -1,8 +1,8 @@
 // import { DataSource } from '@angular/cdk/collections';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 // import { MatPaginator } from '@angular/material/paginator';
 // import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import {MatTableDataSource } from '@angular/material/table';
 // import { TablesExampleDataSource, TablesExampleItem } from './tables-example-datasource';
 
 export interface TablesExampleItem {
@@ -39,9 +39,7 @@ let EXAMPLE_DATA: TablesExampleItem[] = [
   styleUrls: ['./tables-example.component.css']
 })
 export class TablesExampleComponent implements OnInit {
-  // @ViewChild(MatPaginator, /* TODO: add static flag */ {}) paginator: MatPaginator;
-  // @ViewChild(MatSort, /* TODO: add static flag */ {}) sort: MatSort;
-  // @ViewChild(MatTable, /* TODO: add static flag */ {}) table: MatTable<TablesExampleItem>;
+
   dataSourceOne : MatTableDataSource<TablesExampleItem>
   dataSourceTwo : MatTableDataSource<TablesExampleItem>
   dataSourceThree : MatTableDataSource<TablesExampleItem>
@@ -50,7 +48,7 @@ export class TablesExampleComponent implements OnInit {
   displayedColumns = ['physicalName', 'type', 'defaultVal', 'format', 'length', 'bin'];
 
   newAttribute: any = {};
-  selectedRowIndex;
+  selectedRowIndex : number;
   selectedDataSource;
   showEditable:boolean = false;
   isInitial: boolean = true;
@@ -69,30 +67,13 @@ export class TablesExampleComponent implements OnInit {
 
   }
 
-  // ngAfterViewInit() {
-    // this.dataSource.sort = this.sort;
-    // this.dataSource.paginator = this.paginator;
-    // this.table.dataSource = this.dataSource;
-  // }
   handleRowClick(dataSource, rowIndex: number) {
     this.selectedRowIndex = rowIndex;
     this.selectedDataSource = dataSource;
     this.isInitial = false;
     this.showEditable = true;
-
-    if(this.selectedDataSource == this.dataSourceOne) {
-      this.isInitial = false;
-      this.showEditable = true;
-    }
-    if(this.selectedDataSource == this.dataSourceTwo) {
-      this.isInitial = false;
-      this.showEditable = true;
-    }
-    if(this.selectedDataSource == this.dataSourceThree) {
-      this.isInitial = false;
-      this.showEditable = true;
-    }
   }
+
   cancelChange(rowIndex:number){
     this.selectedRowIndex = rowIndex;
     this.isInitial = true;
@@ -105,21 +86,13 @@ export class TablesExampleComponent implements OnInit {
     }
   }
 
-  addFieldValue(dataSource) {
-    // this.selectedRowIndex = rowIndex;
-
-    if(dataSource == this.dataSourceOne) {
-      dataSource.data.push(this.newAttribute)
+  addFieldValue(dataSource, rowNumber: number) {
+      this.selectedRowIndex = rowNumber
+      let obj = Object.assign({}, this.newAttribute);
+      obj['type'] = "";
+      dataSource.data.push(obj);
       this.dataSourceOne = new MatTableDataSource(dataSource.data);
-    }
-    if(dataSource == this.dataSourceTwo) {
-      dataSource.data.push(this.newAttribute)
-      this.dataSourceTwo = new MatTableDataSource(dataSource.data);
-    }
-    if(dataSource == this.dataSourceThree) {
-      dataSource.data.push(this.newAttribute)
-      this.dataSourceThree = new MatTableDataSource(dataSource.data);
-    }
+ 
   }
 
   deleteRowData(dataSource, rowNumber) {
@@ -139,8 +112,6 @@ export class TablesExampleComponent implements OnInit {
   saveRecord(rowIndex:number) {
 
   }
-  expandTable(card) {
-    card.expandTb = !card.expandTb;
-  }
+ 
 
 }
