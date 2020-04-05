@@ -92,26 +92,17 @@ export class TablesExampleComponent implements OnInit {
       obj['type'] = "";
       dataSource.data.push(obj);
       this.dataSourceOne = new MatTableDataSource(dataSource.data);
+  }
+
+  // deleteRowData(dataSource, rowNumber) {
+
+  //     dataSource.data.splice(rowNumber-1, 1);
+  //     this.dataSourceOne= new MatTableDataSource(dataSource.data);
  
-  }
+  // }
+  // saveRecord(rowIndex:number) {
 
-  deleteRowData(dataSource, rowNumber) {
-    if(dataSource == this.dataSourceOne) {
-      dataSource.data.splice(rowNumber-1, 1);
-      this.dataSourceOne= new MatTableDataSource(dataSource.data);
-    }
-    if(dataSource == this.dataSourceTwo) {
-      dataSource.data.splice(rowNumber-1, 1);
-      this.dataSourceTwo = new MatTableDataSource(dataSource.data);
-    }
-    if(dataSource == this.dataSourceThree) {
-      dataSource.data.splice(rowNumber-1, 1);
-      this.dataSourceThree = new MatTableDataSource(dataSource.data);
-    }
-  }
-  saveRecord(rowIndex:number) {
-
-  }
+  // }
  
 
 }

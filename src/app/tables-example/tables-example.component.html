@@ -10,7 +10,8 @@
         <input type="text" 
         placeholder = "Physical Name"
         name="physicalName"
-        class="inputTag">
+        class="inputTag"
+        [(ngModel)]="element.physicalName">
         </ng-container>
         <ng-template #regularRow>{{element.physicalName}}</ng-template>
       </td>
@@ -23,7 +24,8 @@
         <input type="text" 
         placeholder = "Type"
         name="type"
-        class="inputTag">
+        class="inputTag"
+        [(ngModel)]="element.type">
         </ng-container>
       <ng-template #regularRow>{{element.type}}</ng-template>
       </td> 
@@ -36,7 +38,8 @@
         <input type="text" 
         placeholder = "Default Value"
         name="defaultVal"
-        class="inputTag">
+        class="inputTag"
+        [(ngModel)]="element.defaultVal">
         </ng-container>
         <ng-template #regularRow>{{element.defaultVal}}</ng-template>
       </td>
@@ -49,7 +52,9 @@
         <input type="text" 
         placeholder = "Format"
         name="format"
-        class="inputTag">
+        class="inputTag"
+        [(ngModel)]="element.format">
+        
         </ng-container>
         <ng-template #regularRow>{{element.format}}</ng-template>
       </td> 
@@ -62,7 +67,8 @@
         <input type="text" 
         placeholder = "Length"
         name="length"
-        class="inputTag">
+        class="inputTag"
+        [(ngModel)]="element.length">
 
         <button mat-button class="cancelBtn" (click)="cancelChange()" type="reset">Cancel</button>
         <button mat-button class="submitRec" (click)="saveRecord()" type="submit">
