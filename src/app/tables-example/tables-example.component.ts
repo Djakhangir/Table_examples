@@ -47,29 +47,22 @@ export class TablesExampleComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['physicalName', 'type', 'defaultVal', 'format', 'length', 'bin'];
 
-  newAttribute: any = {};
   selectedRowIndex : number;
-  selectedDataSource;
+  selectedDataSourceNumber: number;
   showEditable:boolean = false;
   isInitial: boolean = true;
   expandTb:boolean = false;
 
-  constructor(){
-    this.dataSourceOne = new MatTableDataSource
-    this.dataSourceTwo = new MatTableDataSource
-    this.dataSourceThree = new MatTableDataSource
-  }
-
   ngOnInit() {
-   this.dataSourceOne.data = EXAMPLE_DATA;
-   this.dataSourceTwo.data = EXAMPLE_DATA2;
-   this.dataSourceThree.data = EXAMPLE_DATA3;
+    this.dataSourceOne = new MatTableDataSource(EXAMPLE_DATA)
+    this.dataSourceTwo = new MatTableDataSource(EXAMPLE_DATA2)
+    this.dataSourceThree = new MatTableDataSource(EXAMPLE_DATA3)
 
   }
 
-  handleRowClick(dataSource, rowIndex: number) {
+  handleRowClick(datasourceNumber: number, rowIndex: number) {
     this.selectedRowIndex = rowIndex;
-    this.selectedDataSource = dataSource;
+    this.selectedDataSourceNumber = datasourceNumber;
     this.isInitial = false;
     this.showEditable = true;
   }
@@ -86,12 +79,29 @@ export class TablesExampleComponent implements OnInit {
     }
   }
 
-  addFieldValue(dataSource, rowNumber: number) {
-      this.selectedRowIndex = rowNumber
-      let obj = Object.assign({}, this.newAttribute);
-      obj['type'] = "";
-      dataSource.data.push(obj);
-      this.dataSourceOne = new MatTableDataSource(dataSource.data);
+  addFieldValue(dataSourceNumber: number) {
+    let obj: TablesExampleItem = {
+      physicalName: '',
+      id: null,
+      type: '',
+      defaultVal: null,
+      format:'',
+      length: null,
+      bin: '',
+    };
+    if (dataSourceNumber === 1) {
+      obj.id = this.dataSourceOne.data[this.dataSourceOne.data.length - 1].id + 1;
+      this.dataSourceOne.data.push(obj)
+      this.dataSourceOne = new MatTableDataSource(this.dataSourceOne.data)
+    } else if (dataSourceNumber === 2) {
+      obj.id = this.dataSourceTwo.data[this.dataSourceTwo.data.length - 1].id + 1;
+      this.dataSourceTwo.data.push(obj)
+      this.dataSourceTwo = new MatTableDataSource(this.dataSourceTwo.data)
+    } else if (dataSourceNumber === 3) {
+      obj.id = this.dataSourceThree.data[this.dataSourceThree.data.length - 1].id + 1;
+      this.dataSourceThree.data.push(obj)
+      this.dataSourceThree = new MatTableDataSource(this.dataSourceThree.data)
+    }
   }
 
   // deleteRowData(dataSource, rowNumber) {
