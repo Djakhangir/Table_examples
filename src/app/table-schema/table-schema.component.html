@@ -1,0 +1,24 @@
+<!-- <div class="dataset-name" id="tab2" *ngIf="panelTwoExpanded == false; else technicalSchema" style="margin-left: 15px;margin-top:20px; cursor: pointer;">
+    <span style="margin-left: 15px; font-size: 14px; color:#797979">Technical Schema</span>
+    <img src="someimage.png" style="width:20px; height:20px; margin-right: 35px; float: right;" (click)="makePanelTwoExpanded()">
+  </div> -->
+<!--   
+  <ng-template #technicalSchema>
+    <div class="box" id="tab2" *ngIf="panelTwoExpanded == true;">
+      <div style = "margin-top: 10px; margin-left: 15px; cursor: pointer; color: #C1AE87">Technical Schema 
+        <img src="somePic.png" style="width:20px; height:20px; margin-right: 35px; float: right;" (click)="makePanelTwoExpanded()">
+      </div>
+      <hr class="hrTables"> -->
+      <!-- <ul class=" nav nav-tabs" style="margin-top: 15px; margin-bottom: -58px; float: right;">
+        <li [ngClass]="{'active': tabSchema == true}"><a (click)="clickSchemaTab()">Schema</a></li>
+        <li [ngClass]="{'active': tabDefinitions == true}"><a (click)="clickDefinitionsTab()">Defintions</a></li>
+        <li [ngClass]="{'active': tabValidations == true}"><a (click)="clickValidationsTab()">validations</a></li>
+      </ul> -->
+      <!-- <app-resizingHeaders></app-resizingHeaders> -->
+      <!-- <div class="head"> -->
+          <app-tables-example [dataSource] = "header" [caption]="'Header'"></app-tables-example>
+          <app-tables-example [dataSource] = "detail" [caption]="'Detail'"></app-tables-example>
+          <app-tables-example [dataSource] = "trailer" [caption]="'Trailer'"></app-tables-example>
+      <!-- </div> -->
+    <!-- </div>
+  </ng-template> -->
