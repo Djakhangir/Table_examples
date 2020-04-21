@@ -1,3 +1,13 @@
-/* .full-width-table {
+table {
   width: 100%;
-} */
+  table-layout: fixed;
+}
+
+mat-cell{
+  height: 10%;
+  font-size: 12px;
+  padding-left: 5px;
+  padding-right: 12px;
+  vertical-align: middle;
+
+}
