@@ -6,7 +6,10 @@ import { DataSource } from '@angular/cdk/collections';
 import {MatTableDataSource } from '@angular/material/table';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatInput } from '@angular/material/input';
-import { MatAccordion } from '@angular/material/expansion';import { MatTooltip } from '@angular/material/tooltip';
+import { MatAccordion } from '@angular/material/expansion';
+import { MatTooltip } from '@angular/material/tooltip';
+import { dataset } from './constants';
+
 
   
 @Component({
@@ -24,6 +27,7 @@ export class TablesExampleComponent implements OnInit, AfterContentChecked {
   displayedColumnsDefinitions: string[] = ['physicalName', 'logicalName', 'description', 'actions'];
   displayedColumnsValidations: string[] = ['physicalName', 'actions'];
 
+  data = dataset
   newAttribute: {} = {};
   selectedRowIndex : number;
   selectedDataSource: Record[];
@@ -130,7 +134,7 @@ updateTechSchemaConfigValue(value){
   this.selectedStore = {
     'value': 'Select'
   };
-  // this.storeConfig.data = data[value.type]
+  this.storeConfig.data = this.data.techSchemaFormatDataMap[value.type]
   if(value.type === 'booleanType') {
     value.typeAttributes = "-";
     value.format = "Select";

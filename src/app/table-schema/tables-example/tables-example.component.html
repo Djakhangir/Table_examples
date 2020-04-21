@@ -6,9 +6,9 @@
       </caption>
     </mat-expansion-panel-header>
 
-  <button (click)="addFieldValue(dataSource, selectedRowIndex)" color="soft">Add Attribute</button>
+  
 
-  <!-- <form #techSchemaTab="ngForm" (change)="saveSession(dataSource)"> -->
+  <form #techSchemaTab="ngForm" (change)="saveSession(dataSource)">
     <!-- <div *ngIf="tabSchema == true"> -->
 
       <table mat-table class="mat-elevation-z0" [dataSource]="dataSource">
@@ -38,7 +38,7 @@
                <!-- <mat-form-field>
                  <mat-select [(ngModel)]="element.type" name="Type"
                               (ngModelChange)="updateTechSchemaConfigValue(element)" class="matSelectDropdownSchemaTestObj">
-                    <mat-option > <!--*ngFor="let typeVal of _jsonURL.techSchemaTypeDropdownSelectionConfig.data" [value]="typeVal.key"
+                    <mat-option *ngFor="let typeVal of data.techSchemaTypeDropdownSelectionConfig.data" [value]="typeVal.key">
                       {{typeVal.value}} 
                     </mat-option>
                  </mat-select>
@@ -77,7 +77,7 @@
               <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
                 <!-- <mat-form-field> <!-- *ngIf="selectTechSchemaVal && storeConfig.data?.length > 0"
                   <mat-select [(ngModel)]="element.format" name="formatDropdownVal">
-                     <mat-option  > <!--*ngFor="let typeVal of storeConfig.data" [value]="typeVal.key"
+                     <mat-option *ngFor="let typeVal of storeConfig.data" [value]="typeVal.key" > 
                        {{typeVal.value}}
                      </mat-option>
                   </mat-select>
@@ -102,11 +102,57 @@
           <th mat-header-cell *matHeaderCellDef>Default Value</th>
             <td mat-cell id="data-cell" *matCellDef="let element; let i=index;">
               <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+              <ng-container **ngIf="fieldSizeValidationBoolean">
+<!-- <mat-form-field *ngIf="selectTechSchemaVal && storeConfig.data?.length > 0">
+  <mat-select name="formatDropDownVal" [(ngModel)]="element.defaultValue">
+    <mat-option *ngFor="let typeVal of storeConfig.data" [value]="typeVal.value">
+      {{typeVal.value}}
+    </mat-option>
+  </mat-select>
+</mat-form-field> -->
+              </ng-container>
+                <ng-container *ngIf="fieldSizeValidationInteger">
+                  <input 
+                  type="number"  
+                  class="inputTag" 
+                  placeholder = "Field Size" 
+                  name="FieldSizeInteger"
+                  max-length="11" [(ngModel)]="element.fieldSize"> <!--appNumbersOnly, [input-type]="'numberValidation'"-->
+                </ng-container>
+                <ng-container *ngIf="fieldSizeValidationDateType">
+                  <input 
+                  type="number"  
+                  class="inputTag" 
+                  placeholder = "Field Size" 
+                  name="FieldSizeDate"
+                  max-length="5" [(ngModel)]="element.defaultValue"> <!--appNumbersOnly, [date-type-format]="'element.format'"-->
+                </ng-container>
+                <ng-container *ngIf="fieldSizeValidationTimestamType">
+                  <input 
+                  type="number"  
+                  class="inputTag ellipsisText" 
+                  placeholder = "Field Size" 
+                  name="fieldSizeValidationTimestamType"
+                  [(ngModel)]="element.defaultValue" format="{{dropdownValue}}"><!--appTimestamp-->
+                </ng-container>
+                <ng-container *ngIf="fieldSizeValidationDecimal">
+                  <input 
+                  type="number"  
+                  class="inputTag ellipsisText" 
+                  placeholder = "Field Size" 
+                  name="fieldSizeValidationDecimal"
+                  max-length="20"  [(ngModel)]="element.defaultValue" (blur)="updateFieldSizeForDecimalType(element)"> <!--appNumbersOnly, [input-type]="'numberValidationLong'"-->
+                </ng-container>
+                
                 <input 
                 type="text"  
                 class="inputTag" 
                 placeholder = "Default Value" 
-                name="defaultValue">
+                name="defaultValueNotFixed"
+                (blur)="defaultValidation(i)"
+                [(ngModel)]="element.defaultValue" 
+                *ngIf="!fieldSizeValidationInteger || !fieldSizeValidationDateTyoe || !fieldSizeValidationTimestampType || !fieldSizeValidationDecimal "> 
+                <span [hidden]="InfoIcon"> {{message}} </span>
               </ng-container>
               <ng-template #regularRow>
                 <span class="tooltipVisible" matToolTip="{{element.defaultValue}}" matToolTipPosition="right">
@@ -223,7 +269,9 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumnsSchema"></tr>
           <tr mat-row *matRowDef="let row; index as i; columns: displayedColumnsSchema;" (click)="handleRowClick(dataSource, row.id)"></tr>
+          
       </table>
+      <button (click)="addFieldValue(dataSource, selectedRowIndex)" color="soft">Add Attribute</button>
     <!-- </div> -->
 <!-- 
  <div *ngIf="tabDefinitions == true"> 
@@ -352,6 +400,6 @@
       <tr mat-row *matRowDef="let row; index as i; columns: displayedColumnsValidations;" (click)="handleRowClick(dataSource, row.id)"></tr>
   </table>
 </div> -->
-<!-- </form> -->
+</form>
 </mat-expansion-panel>
 </mat-accodion>
