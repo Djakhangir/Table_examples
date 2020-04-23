@@ -1,0 +1,405 @@
+<mat-accodion [multi]="true" [togglePosition]="'before'">
+  <mat-expansion-panel class="mat-elevation-z0 header">
+    <mat-expansion-panel-header class="expanded-header">
+      <caption *ngIf="caption">
+        {{caption }} <!--({{dataSource.data.length}})!-->
+      </caption>
+    </mat-expansion-panel-header>
+
+  
+
+  <form #techSchemaTab="ngForm" (change)="saveSession(dataSource)">
+    <!-- <div *ngIf="tabSchema == true"> -->
+
+      <table mat-table class="mat-elevation-z0" [dataSource]="dataSource">
+        <ng-container matColumnDef="physicalName">
+          <th mat-header-cell  *matHeaderCellDef>Physical Name</th>
+            <td mat-cell id="data-cell" *matCellDef="let element; let i=index;">
+              <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+                <input 
+                type="text" 
+                id="physicalInput" 
+                class="inputTag" 
+                placeholder = "Physical_Name" 
+                name="Physical_Name">
+              </ng-container>
+              <ng-template #regularRow>
+                <span class="tooltipVisible" matToolTip="{{element.physicalName}}" matToolTipPosition="right">
+                  {{element.physicalName}}  
+                </span>
+              </ng-template>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell id="data-cell" *matCellDef="let element; let i=index;">
+              <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+               <!-- <mat-form-field>
+                 <mat-select [(ngModel)]="element.type" name="Type"
+                              (ngModelChange)="updateTechSchemaConfigValue(element)" class="matSelectDropdownSchemaTestObj">
+                    <mat-option *ngFor="let typeVal of data.techSchemaTypeDropdownSelectionConfig.data" [value]="typeVal.key">
+                      {{typeVal.value}} 
+                    </mat-option>
+                 </mat-select>
+               </mat-form-field> -->
+              </ng-container>
+              <ng-template #regularRow>
+                <span class="tooltipVisible" matToolTip="{{element.type}}" matToolTipPosition="right">
+                  {{element.type}}  
+                </span>
+              </ng-template>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="typeAttributes">
+          <th mat-header-cell *matHeaderCellDef>Type Attributes</th>
+            <td mat-cell id="data-cell" *matCellDef="let element; let i=index;">
+              <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+                <input 
+                type="text"  
+                class="inputTag" 
+                placeholder = "Type Attributes" 
+                name="TypeAttributes"
+                [(ngModel)]="element.typeAttributes">
+              </ng-container>
+              <ng-template #regularRow>
+                <span class="tooltipVisible" matToolTip="{{element.typeAttributes}}" matToolTipPosition="right">
+                  {{element.typeAttributes}}  
+                </span>
+              </ng-template>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="format">
+          <th mat-header-cell *matHeaderCellDef>Format</th>
+            <td mat-cell id="data-cell" *matCellDef="let element; let i=index;">
+              <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+                <!-- <mat-form-field> <!-- *ngIf="selectTechSchemaVal && storeConfig.data?.length > 0"
+                  <mat-select [(ngModel)]="element.format" name="formatDropdownVal">
+                     <mat-option *ngFor="let typeVal of storeConfig.data" [value]="typeVal.key" > 
+                       {{typeVal.value}}
+                     </mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+                <input 
+                type="text"  
+                class="inputTag" 
+                placeholder = "Format" 
+                name="Format"
+                [(ngModel)]="element.format">
+              </ng-container>
+
+              <ng-template #regularRow>
+                <span class="tooltipVisible" matToolTip="{{element.format}}" matToolTipPosition="right">
+                  {{element.format}}  
+                </span>
+              </ng-template>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="defaultValue">
+          <th mat-header-cell *matHeaderCellDef>Default Value</th>
+            <td mat-cell id="data-cell" *matCellDef="let element; let i=index;">
+              <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+              <ng-container **ngIf="fieldSizeValidationBoolean">
+<!-- <mat-form-field *ngIf="selectTechSchemaVal && storeConfig.data?.length > 0">
+  <mat-select name="formatDropDownVal" [(ngModel)]="element.defaultValue">
+    <mat-option *ngFor="let typeVal of storeConfig.data" [value]="typeVal.value">
+      {{typeVal.value}}
+    </mat-option>
+  </mat-select>
+</mat-form-field> -->
+              </ng-container>
+                <ng-container *ngIf="fieldSizeValidationInteger">
+                  <input 
+                  type="number"  
+                  class="inputTag" 
+                  placeholder = "Field Size" 
+                  name="FieldSizeInteger"
+                  max-length="11" [(ngModel)]="element.fieldSize"> <!--appNumbersOnly, [input-type]="'numberValidation'"-->
+                </ng-container>
+                <ng-container *ngIf="fieldSizeValidationDateType">
+                  <input 
+                  type="number"  
+                  class="inputTag" 
+                  placeholder = "Field Size" 
+                  name="FieldSizeDate"
+                  max-length="5" [(ngModel)]="element.defaultValue"> <!--appNumbersOnly, [date-type-format]="'element.format'"-->
+                </ng-container>
+                <ng-container *ngIf="fieldSizeValidationTimestamType">
+                  <input 
+                  type="number"  
+                  class="inputTag ellipsisText" 
+                  placeholder = "Field Size" 
+                  name="fieldSizeValidationTimestamType"
+                  [(ngModel)]="element.defaultValue" format="{{dropdownValue}}"><!--appTimestamp-->
+                </ng-container>
+                <ng-container *ngIf="fieldSizeValidationDecimal">
+                  <input 
+                  type="number"  
+                  class="inputTag ellipsisText" 
+                  placeholder = "Field Size" 
+                  name="fieldSizeValidationDecimal"
+                  max-length="20"  [(ngModel)]="element.defaultValue" (blur)="updateFieldSizeForDecimalType(element)"> <!--appNumbersOnly, [input-type]="'numberValidationLong'"-->
+                </ng-container>
+                
+                <input 
+                type="text"  
+                class="inputTag" 
+                placeholder = "Default Value" 
+                name="defaultValueNotFixed"
+                (blur)="defaultValidation(i)"
+                [(ngModel)]="element.defaultValue" 
+                *ngIf="!fieldSizeValidationInteger || !fieldSizeValidationDateTyoe || !fieldSizeValidationTimestampType || !fieldSizeValidationDecimal "> 
+                <span [hidden]="InfoIcon"> {{message}} </span>
+              </ng-container>
+              <ng-template #regularRow>
+                <span class="tooltipVisible" matToolTip="{{element.defaultValue}}" matToolTipPosition="right">
+                  {{element.defaultValue}}  
+                </span>
+              </ng-template>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fieldSize">
+          <th mat-header-cell *matHeaderCellDef>Field Size</th>
+            <td mat-cell id="data-cell-fieldSize" *matCellDef="let element; let i=index;">
+              <ng-container class="editable" id="data-fieldSize" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+                <ng-container *ngIf="fieldSizeValidationInteger">
+                  <input 
+                  type="number"  
+                  class="inputTag" 
+                  placeholder = "Field Size" 
+                  name="FieldSizeInteger"
+                  max-length="11" [(ngModel)]="element.fieldSize"> <!--appNumbersOnly, [input-type]="'numberValidation'"-->
+                </ng-container>
+                <ng-container *ngIf="fieldSizeValidationString">
+                  <input 
+                  type="number"  
+                  class="inputTag" 
+                  placeholder = "Field Size" 
+                  name="FieldSizeApp"
+                  max-length="5" [(ngModel)]="element.fieldSize"> <!--appNumbersOnly, [input-type]="'numberValidationString'"-->
+                </ng-container>
+                <ng-container *ngIf="fieldSizeValidationFloat">
+                  <input 
+                  type="number"  
+                  class="inputTag ellipsisText" 
+                  placeholder = "Field Size" 
+                  name="FieldSizeFloatFixed"
+                  [(ngModel)]="element.fieldSize" ><!--appNumbersOnly, [input-type]="'numberValidationFloat'"-->
+                </ng-container>
+                <ng-container *ngIf="fieldSizeValidationLong">
+                  <input 
+                  type="number"  
+                  class="inputTag ellipsisText" 
+                  placeholder = "Field Size" 
+                  name="FieldSizeLongN"
+                  max-length="20"  [(ngModel)]="element.fieldSize"> <!--appNumbersOnly, [input-type]="'numberValidationLong'"-->
+                </ng-container>
+                <ng-container *ngIf="fieldSizeValidationDouble">
+                  <input 
+                  type="number"  
+                  class="inputTag" 
+                  placeholder = "Field Size" 
+                  name="FieldSizeDouble"
+                  max-length="20" [(ngModel)]="element.fieldSize"> <!--appNumbersOnly, [input-type]="'numberValidationLong'"-->
+                </ng-container>
+                <ng-container *ngIf="fieldSizeValidationKeyword">
+                  <input 
+                  type="number"  
+                  class="inputTag" 
+                  placeholder = "Field Size" 
+                  name="FieldSizeKeyword"
+                  max-length="5" [(ngModel)]="element.fieldSize"><!--appNumbersOnly, [input-type]="'numberValidationString'"-->
+                </ng-container>
+                <input 
+                  type="number"  
+                  class="inputTag" 
+                  placeholder = "Field Size"
+                  id="inputFieldSize" 
+                  name="FieldSizeKeyword"
+                  [(ngModel)]="element.fieldSize"
+                  *ngIf="!fieldSizeValidationInteger || !fieldSizeValidationFloat || !fieldSizeValidationLong || !fieldSizeValidationDouble || fieldSizeValidationString || !fieldSizeValidationKeyword">
+              </ng-container>
+
+              <ng-template #regularRow>
+                <span class="tooltipVisible" matToolTip="{{element.fieldSize}}" matToolTipPosition="right">
+                  {{element.fieldSize}}  
+                </span>
+              </ng-template>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="startPosition">
+          <th mat-header-cell *matHeaderCellDef>Start Position</th>
+            <td mat-cell id="data-cell-startPosition" *matCellDef="let element; let i=index;">
+              <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+                <input 
+                type="number"  
+                class="inputTag" 
+                placeholder = "Start Position" 
+                name="Start Position" 
+                [value]="this.startPosition[i]">
+              </ng-container>
+              <ng-template #regularRow>
+                <span class="tooltipVisible" id="startPositionValue" matToolTip="{{element.startPosition}}" matToolTipPosition="right">
+                  {{this.startPosition[i]}}  
+                </span>
+              </ng-template>
+            </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element; let i=index;">
+            <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable && !isInitial else regularRow"> 
+              <button mat-button class="cancelBtn" matToolTip="Cancel Entry" (click)="cancelChange(selectedRowIndex)" type="reset">Cancel</button>
+              <button mat-button class="submitRec" type="submit"> <!-- (click)="saveRecord()" -->
+                <img src="chbox.svg" matToolTip="Save Entry" matToolTipPosition="right" alt="checkSign">
+              </button>
+            </ng-container>
+        
+            <ng-template #regularRow>
+              <img src="imageBin.svg" matToolTip="Delete Entry" class="binImg" (click)="deleteRowData(dataSource, i)" id="actionBtn" matToolTipPosition="right" alt="actions">
+            </ng-template>
+          </td> 
+        </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsSchema"></tr>
+          <tr mat-row *matRowDef="let row; index as i; columns: displayedColumnsSchema;" (click)="handleRowClick(dataSource, row.id)"></tr>
+          
+      </table>
+      <button (click)="addFieldValue(dataSource, selectedRowIndex)" color="soft">Add Attribute</button>
+    <!-- </div> -->
+<!-- 
+ <div *ngIf="tabDefinitions == true"> 
+
+  <table mat-table class="mat-elevation-z0" [dataSource]="dataSource">
+    <ng-container matColumnDef="physicalName">
+      <th mat-header-cell  *matHeaderCellDef>Physical Name</th>
+        <td mat-cell id="data-cell" *matCellDef="let element; let i=index;">
+          <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+            <input 
+            type="text" 
+            id="physicalInput" 
+            class="inputTag" 
+            placeholder = "Physical_Name" 
+            name="physicalNameNotFixed">
+          </ng-container>
+          <ng-template #regularRow>
+            <span class="tooltipVisible" matToolTip="{{element.physicalName}}" matToolTipPosition="right">
+              {{element.physicalName}}  
+            </span>
+          </ng-template>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="logicalName">
+      <th mat-header-cell *matHeaderCellDef>Logical Name</th>
+        <td mat-cell id="data-cell" *matCellDef="let element; let i=index;">
+          <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+           <mat-form-field>
+             <mat-select [(ngModel)]="element.logicalName">
+                <mat-option>
+                 
+                </mat-option>
+             </mat-select>
+           </mat-form-field>
+          </ng-container>
+          <ng-template #regularRow>
+            <span class="tooltipVisible" matToolTip="{{element.logicalName}}" matToolTipPosition="right">
+              {{element.logicalName}}  
+            </span>
+          </ng-template>
+        </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell id="data-cell" *matCellDef="let element; let i=index;">
+          <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+           <mat-form-field>
+             <mat-select [(ngModel)]="element.description">
+                <mat-option>
+                 
+                </mat-option>
+             </mat-select>
+           </mat-form-field>
+          </ng-container>
+          <ng-template #regularRow>
+            <span class="tooltipVisible" matToolTip="{{element.description}}" matToolTipPosition="right">
+              {{element.description}}  
+            </span>
+          </ng-template>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element; let i=index;">
+        <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable && !isInitial else regularRow"> 
+          <button mat-button class="cancelBtn" matToolTip="Cancel Entry" (click)="cancelChange(selectedRowIndex)" type="reset">Cancel</button>
+          <button mat-button class="submitRec" type="submit"> <!-- (click)="saveRecord()"
+            <img src="chbox.svg" matToolTip="Save Entry" matToolTipPosition="right" alt="checkSign">
+          </button>
+        </ng-container>
+    
+        <ng-template #regularRow>
+          <img src="imageBin.svg" matToolTip="Delete Entry" class="binImg" (click)="deleteRowData(dataSource, i)" id="actionBtn" matToolTipPosition="right" alt="actions">
+        </ng-template>
+      </td> 
+    </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsDefinitions"></tr>
+      <tr mat-row *matRowDef="let row; index as i; columns: displayedColumnsDefinitions;" (click)="handleRowClick(dataSource, row.id)"></tr>
+
+  </table>
+</div>
+
+<div *ngIf="tabValidations == true">
+
+  <table mat-table class="mat-elevation-z0" [dataSource]="dataSource">
+    <ng-container matColumnDef="physicalName">
+      <th mat-header-cell  *matHeaderCellDef>Physical Name</th>
+        <td mat-cell id="data-cell" *matCellDef="let element; let i=index;">
+          <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable else regularRow"> 
+            <input 
+            type="text" 
+            id="physicalInput" 
+            class="inputTag" 
+            placeholder = "Physical_Name" 
+            name="physicalNameNotFixed">
+          </ng-container>
+          <ng-template #regularRow>
+            <span class="tooltipVisible" matToolTip="{{element.physicalName}}" matToolTipPosition="right">
+              {{element.physicalName}}  
+            </span>
+          </ng-template>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element; let i=index;">
+        <ng-container class="editable" *ngIf="selectedRowIndex === element?.id && showEditable && !isInitial else regularRow"> 
+          <button mat-button class="cancelBtn" matToolTip="Cancel Entry" (click)="cancelChange(selectedRowIndex)" type="reset">Cancel</button>
+          <button mat-button class="submitRec" type="submit"> <!-- (click)="saveRecord()"
+            <img src="chbox.svg" matToolTip="Save Entry" matToolTipPosition="right" alt="checkSign">
+          </button>
+        </ng-container>
+    
+        <ng-template #regularRow>
+          <img src="imageBin.svg" matToolTip="Delete Entry" class="binImg" (click)="deleteRowData(dataSource, i)" id="actionBtn" matToolTipPosition="right" alt="actions">
+        </ng-template>
+      </td> 
+    </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsValidations"></tr>
+      <tr mat-row *matRowDef="let row; index as i; columns: displayedColumnsValidations;" (click)="handleRowClick(dataSource, row.id)"></tr>
+  </table>
+</div> -->
+</form>
+</mat-expansion-panel>
+</mat-accodion>
