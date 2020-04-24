@@ -28,7 +28,18 @@ export class TablesExampleComponent implements OnInit, AfterContentChecked {
   displayedColumnsValidations: string[] = ['physicalName', 'actions'];
 
   data = dataset
-  newAttribute: {} = {};
+  newAttribute: Record = {
+    id: null,
+    physicalName: null,
+    type: null,
+    typeAttributes: null,
+    defaultValue: null,
+    format: null,
+    logicalName: null,
+    description: null,
+    fieldSize: null,
+    startPosition: null,
+  };
   selectedRowIndex : number;
   selectedDataSource: Record[];
   showEditable:boolean = false;
@@ -66,20 +77,24 @@ handleRowClick(dataSource, rowIndex: number) {
 
 // Keeps Input but cancels editable mode
   cancelChange(rowIndex:number){
-    this.selectedRowIndex = rowIndex;
+    this.selectedRowIndex = null;
     this.showEditable = false;
       event.stopPropagation();
   }
 
 // Add new row
-  addFieldValue(dataSource, rowNumber: number) {
-      this.selectedRowIndex = rowNumber
-      let obj = Object.assign({}, this.newAttribute);
-      obj['type'] = "";
-      obj['startPosition'] = this.autoCalcPosition();
-      dataSource.data.push(obj);
-      this.dataSource = new MatTableDataSource(dataSource.data);
-      this.autoCalcPosition();
+  addNewRow() {
+    const newId = Date.now(); 
+    this.selectedRowIndex = newId;
+    let obj = {
+      ...this.newAttribute,
+      id: newId,
+      // I don't know what is this for because autoCalcPosition method do not return anything
+      // startPosition: this.autoCalcPosition()
+    };
+    this.dataSource.data.push(obj);
+    this.dataSource = new MatTableDataSource(this.dataSource.data);
+    this.autoCalcPosition();
   }
 
 // Initially calculate value of startPosition column depending on fieldSize column
